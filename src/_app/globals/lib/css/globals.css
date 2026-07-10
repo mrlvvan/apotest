@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@import "./tailwind/import/base.css" theme(static inline);
+@import "./tailwind/import/semantic.css" theme(inline);
+
+@import "./tailwind/theme.css" theme(inline);
+@import "./tailwind/preflight.css";
+
+@source "./tailwind/theme.css";
+@source "./tailwind/import/base.css";
+@source "./tailwind/import/semantic.css";

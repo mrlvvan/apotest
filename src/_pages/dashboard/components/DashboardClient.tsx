@@ -807,7 +807,7 @@ function ConfirmPhoneDrawer({
   const [hasError, setHasError] = useState(false);
   const joinedCode = code.join("");
   const canSubmit = joinedCode.length === 4 && !hasError;
-  const inputsRef = useRef<array<HTMLInputElement | null>>([]);
+  const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
 
   function updateCode(index: number, value: string) {
   const digits = value.replace(/\D/g, "");

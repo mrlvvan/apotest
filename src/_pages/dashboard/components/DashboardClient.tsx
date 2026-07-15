@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Button from "@shared/ui/Button";
 import Icon from "@shared/ui/Icon";
 import { cn } from "@shared/lib/utils/css";
 import UserListItem from "./UserListItem";
+import { fa } from "zod/locales";
 
 type DrawerMode = "view" | "create" | "confirmPhone" | "schedule" | "loading";
 type PositionCode = "manager" | "specialist" | "intern" | "contractor" | "director";
@@ -100,6 +101,11 @@ function onlyDigits(value: string): string {
   return value.replace(/\D/g, "");
 }
 
+function normalizePhoneInput (value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0,11);
+  return digits ? `+${digits}`: "+";
+}
+
 function normalizeTimeInput(value: string): string {
   const digits = onlyDigits(value).slice(0, 4);
   if (digits.length <= 2) {
@@ -136,6 +142,7 @@ export default function DashboardClient() {
   const [users, setUsers] = useState<DashboardUser[]>([]);
   const [drawerMode, setDrawerMode] = useState<DrawerMode | null>(null);
   const [scheduleReturnMode, setScheduleReturnMode] = useState<"view" | "create">("view");
+  const [scheduleSet, setScheduleSet] = useState(false);
   const [selectedUser, setSelectedUser] = useState<DashboardUser | null>(null);
   const [pendingConfirmationUser, setPendingConfirmationUser] = useState<DashboardUser | null>(null);
   const [form, setForm] = useState<UserForm>(emptyForm);
@@ -183,7 +190,8 @@ export default function DashboardClient() {
     setDrawerMode("view");
     setIsModified(false);
     setShowValidation(false);
-  }
+    setScheduleSet(false);
+    }
 
   function openCreate() {
     setSelectedUser(null);
@@ -292,6 +300,8 @@ export default function DashboardClient() {
     setSchedule(nextSchedule);
 
     if (scheduleReturnMode === "create" || !selectedUser) {
+      setSchedule(nextSchedule);
+      setScheduleSet(true);
       setIsModified(true);
       setDrawerMode(scheduleReturnMode);
       return;
@@ -357,7 +367,7 @@ export default function DashboardClient() {
       </aside>
 
       <main className="ml-[76px] min-h-dvh">
-        <section className="mx-auto w-full max-w-[1320px] px-6 pb-10 pt-12">
+        <section className="mx-0 w-full px-10 pb-10 pt-12">
           <h1 className="text-center text-l font-normal">Пользователи</h1>
 
           <div className="mt-14 grid gap-3">
@@ -373,7 +383,7 @@ export default function DashboardClient() {
 
           <Button
             aria-label="Создать пользователя"
-            className="mt-3 size-10 rounded-m border border-stroke-med bg-background-none p-0 text-l text-symb-primary hover:border-stroke-max"
+            className="mt-3 h-10 w-[52px] rounded-m border border-stroke-med bg-background-none p-0 text-l text-symb-primary hover:border-stroke-max"
             variant="tertiary"
             onClick={openCreate}
           >
@@ -397,6 +407,7 @@ export default function DashboardClient() {
               mode={drawerMode}
               form={form}
               schedule={schedule}
+              scheduleSet={scheduleSet}
               isModified={isModified}
               selectedUser={selectedUser}
               showValidation={showValidation}
@@ -444,6 +455,7 @@ interface UserDrawerProps {
   mode: Exclude<DrawerMode, "schedule" | "loading">;
   form: UserForm;
   schedule: Schedule;
+  scheduleSet:boolean
   selectedUser: DashboardUser | null;
   isModified: boolean;
   showValidation: boolean;
@@ -460,6 +472,7 @@ function UserDrawer({
   mode,
   form,
   schedule,
+  scheduleSet,  
   selectedUser,
   isModified,
   showValidation,
@@ -473,7 +486,6 @@ function UserDrawer({
 }: UserDrawerProps) {
   const isCreate = mode === "create" || mode === "confirmPhone";
   const isConfirmPhone = mode === "confirmPhone";
-  const saveDisabled = isCreate ? !isModified : !isModified;
 
   if (isConfirmPhone) {
     return (
@@ -516,7 +528,7 @@ function UserDrawer({
           />
 
           <SchedulePreview
-            empty={isCreate && !isConfirmPhone}
+            empty={isCreate && !scheduleSet}
             schedule={schedule}
             onClick={onOpenSchedule}
           />
@@ -528,9 +540,9 @@ function UserDrawer({
                 value={form.phone}
                 placeholder="+ 7 (000) 000–00–00"
                 inputMode="numeric"
-                maxLength={11}
+                maxLength={12}
                 pattern="[0-9]*"
-                normalizeValue={onlyDigits}
+                normalizeValue={normalizePhoneInput}
                 error={showValidation && !form.phone ? "Обязательное поле" : undefined}
                 onChange={(value) => onFieldChange("phone", value)}
               />
@@ -548,7 +560,6 @@ function UserDrawer({
 
         <Button
           className="mt-auto self-end"
-          disabled={isConfirmPhone ? false : saveDisabled}
           size="M"
           variant="primary"
           onClick={isCreate ? onSubmitCreate : onSave}
@@ -626,7 +637,7 @@ function DrawerInput({
         pattern={pattern}
         onChange={(event) => onChange(normalizeValue?.(event.target.value) ?? event.target.value)}
         className={cn(
-          "h-12 rounded-m border bg-background-none px-4 text-s text-symb-primary outline-none transition-colors placeholder:text-symb-secondary",
+          "h-12 rounded-m border bg-background-none px-4 text-l text-symb-primary outline-none transition-colors placeholder:text-symb-secondary",
           error ? "border-stroke-error" : "border-stroke-med focus:border-stroke-active",
         )}
       />
@@ -658,7 +669,7 @@ function DrawerSelect({
         type="button"
         onClick={() => setIsOpen((current) => !current)}
         className={cn(
-          "flex h-12 w-full items-center justify-between rounded-m border bg-background-none px-4 text-left text-s",
+          "flex h-12 w-full items-center justify-between rounded-m border bg-background-none px-4 text-left text-l",
           "transition-colors duration-300 ease-in-out",
           invalid
             ? "border-stroke-error text-symb-secondary"
@@ -672,6 +683,10 @@ function DrawerSelect({
           className="text-symb-secondary"
         />
       </button>
+
+      {invalid ? (
+        <span className="text-xs text-symb-error">Обязательное поле</span>
+      ): null}
 
       {isOpen ? (
         <div className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 max-h-44 overflow-y-auto rounded-m bg-background-none py-2 text-s text-symb-primary shadow-[0_10px_28px_rgba(8,20,35,0.08)]">
@@ -792,12 +807,28 @@ function ConfirmPhoneDrawer({
   const [hasError, setHasError] = useState(false);
   const joinedCode = code.join("");
   const canSubmit = joinedCode.length === 4 && !hasError;
+  const inputsRef = useRef<array<HTMLInputElement | null>>([]);
 
   function updateCode(index: number, value: string) {
-    const nextValue = value.replace(/\D/g, "").slice(-1);
-    setCode((current) => current.map((item, itemIndex) => (itemIndex === index ? nextValue : item)));
-    setHasError(false);
+  const digits = value.replace(/\D/g, "");
+  if (!digits) {
+    setCode((current) => current.map((item, i) => (i === index ? "" : item)));
+    return;
   }
+
+  setCode((current) => {
+    const next = [...current];
+    const chars = digits.slice(0, 4 - index).split("");
+    chars.forEach((char, offset) => {
+      next[index + offset] = char;
+    });
+    return next;
+  });
+  setHasError(false);
+
+  const nextIndex = Math.min(index + digits.length, 3);
+  inputsRef.current[nextIndex]?.focus();
+}
 
   function submitCode() {
     if (joinedCode === "1111") {
@@ -821,11 +852,19 @@ function ConfirmPhoneDrawer({
           {code.map((digit, index) => (
             <input
               key={index}
+              ref={(el) => {
+              inputsRef.current[index] = el;
+              }}
               value={digit}
               inputMode="numeric"
               pattern="[0-9]*"
               maxLength={1}
               onChange={(event) => updateCode(index, event.target.value)}
+              onKeyDown={(event) => {
+              if (event.key === "Backspace" && !code[index] && index > 0) {
+              inputsRef.current[index - 1]?.focus();
+              }
+}}
               className={cn(
                 "size-14 rounded-m border bg-background-none text-center text-h1 outline-none transition-colors",
                 hasError

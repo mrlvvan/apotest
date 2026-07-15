@@ -15,7 +15,7 @@ export default function UserListItem({ fullName, phoneVerified = true, onClick }
       type="button"
       onClick={onClick}
       className={cn(
-        "group flex h-12 w-full items-center justify-between rounded-m px-5 text-left text-s text-symb-primary",
+        "group flex h-12 w-full items-center justify-between rounded-m px-5 text-left text-s   text-symb-primary",
         "group transition-colors duration-300 ease-in-out",
         isUnverified
           ? "bg-background-error hover:bg-background-error"
@@ -27,7 +27,7 @@ export default function UserListItem({ fullName, phoneVerified = true, onClick }
         {isUnverified ? (
           <Icon
             name="info"
-            className="absolute text-[18px] text-symb-primary opacity-100 transition-opacity group-hover:opacity-0"
+            className="absolute text-[20px] text-symb-primary opacity-100 transition-opacity group-hover:opacity-0"
           />
         ) : null}
         <span className="absolute flex size-8 items-center justify-center rounded-s bg-background-none opacity-0 transition-opacity group-hover:opacity-100">

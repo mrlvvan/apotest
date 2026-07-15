@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { cn } from "@shared/lib/utils/css";
 
 interface RectIconButtonProps {
@@ -30,13 +29,13 @@ export default function RectIconButton({
         className,
       )}
     >
-      <Image
+      <img
         src={src}
         alt=""
         width={iconWidth}
         height={iconHeight}
-        style={{ width: iconWidth, height: iconHeight }}
         aria-hidden
+        className="block shrink-0"
       />
     </button>
   );

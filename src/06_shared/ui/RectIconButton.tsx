@@ -30,7 +30,14 @@ export default function RectIconButton({
         className,
       )}
     >
-      <Image src={src} alt="" width={iconWidth} height={iconHeight} aria-hidden />
+      <Image
+        src={src}
+        alt=""
+        width={iconWidth}
+        height={iconHeight}
+        style={{ width: iconWidth, height: iconHeight }}
+        aria-hidden
+      />
     </button>
   );
 }

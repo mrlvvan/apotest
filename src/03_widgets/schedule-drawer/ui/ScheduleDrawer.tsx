@@ -87,8 +87,10 @@ export default function ScheduleDrawer({ schedule, onBack, onSave }: ScheduleDra
             </div>
           ) : (
             <RectIconButton
-              src={actionIcons.plus}
+              src={actionIcons.plus.src}
               alt="Добавить обед"
+              iconWidth={actionIcons.plus.width}
+              iconHeight={actionIcons.plus.height}
               onClick={() => setHasLunch(true)}
             />
           )}
@@ -98,8 +100,10 @@ export default function ScheduleDrawer({ schedule, onBack, onSave }: ScheduleDra
               <CallPolicySelect value={lunchPolicy} onChange={setLunchPolicy} />
               <span />
               <RectIconButton
-                src={actionIcons.delete}
+                src={actionIcons.delete.src}
                 alt="Удалить обед"
+                iconWidth={actionIcons.delete.width}
+                iconHeight={actionIcons.delete.height}
                 onClick={() => setHasLunch(false)}
               />
             </>

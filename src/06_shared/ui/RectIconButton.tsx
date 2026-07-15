@@ -8,7 +8,8 @@ interface RectIconButtonProps {
   alt: string;
   onClick?: () => void;
   className?: string;
-  iconSize?: number;
+  iconWidth?: number;
+  iconHeight?: number;
 }
 
 export default function RectIconButton({
@@ -16,7 +17,8 @@ export default function RectIconButton({
   alt,
   onClick,
   className,
-  iconSize = 16,
+  iconWidth = 16,
+  iconHeight = 16,
 }: RectIconButtonProps) {
   return (
     <button
@@ -28,7 +30,7 @@ export default function RectIconButton({
         className,
       )}
     >
-      <Image src={src} alt="" width={iconSize} height={iconSize} aria-hidden />
+      <Image src={src} alt="" width={iconWidth} height={iconHeight} aria-hidden />
     </button>
   );
 }

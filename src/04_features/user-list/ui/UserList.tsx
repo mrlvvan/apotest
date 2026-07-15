@@ -52,8 +52,10 @@ export default function UserList({
 
       {!isLoading ? (
         <RectIconButton
-          src={actionIcons.plus}
+          src={actionIcons.plus.src}
           alt="Создать пользователя"
+          iconWidth={actionIcons.plus.width}
+          iconHeight={actionIcons.plus.height}
           className="mt-3"
           onClick={onCreate}
         />

@@ -21,8 +21,10 @@ export default function DrawerHeader({
     <header className="relative mb-10 flex h-10 items-center justify-center">
       {back ? (
         <RectIconButton
-          src={actionIcons.back}
+          src={actionIcons.back.src}
           alt="Назад"
+          iconWidth={actionIcons.back.width}
+          iconHeight={actionIcons.back.height}
           onClick={onBack}
           className="absolute left-0"
         />

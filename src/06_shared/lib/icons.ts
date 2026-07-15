@@ -1,5 +1,5 @@
 export const actionIcons = {
-  back: "/icons/back.svg",
-  plus: "/icons/plus.svg",
-  delete: "/icons/delete.svg",
+  back: { src: "/icons/back.svg", width: 14, height: 10 },
+  plus: { src: "/icons/plus.svg", width: 10, height: 10 },
+  delete: { src: "/icons/delete.svg", width: 13, height: 14 },
 } as const;

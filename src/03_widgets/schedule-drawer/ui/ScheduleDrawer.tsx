@@ -88,6 +88,8 @@ export default function ScheduleDrawer({ schedule, onBack, onSave }: ScheduleDra
           ) : (
             <RectIconButton
               alt="Добавить обед"
+              width={52}
+              height={40}
               className="text-symb-primary"
               onClick={() => setHasLunch(true)}
             >
@@ -101,7 +103,8 @@ export default function ScheduleDrawer({ schedule, onBack, onSave }: ScheduleDra
               <span />
               <RectIconButton
                 alt="Удалить обед"
-                className="h-10 w-[52px]"
+                width={52}
+                height={40}
                 onClick={() => setHasLunch(false)}
               >
                 <DeleteIcon />

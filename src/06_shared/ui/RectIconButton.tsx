@@ -7,6 +7,8 @@ interface RectIconButtonProps {
   alt: string;
   onClick?: () => void;
   className?: string;
+  width?: number;
+  height?: number;
   children: ReactNode;
 }
 
@@ -14,6 +16,8 @@ export default function RectIconButton({
   alt,
   onClick,
   className,
+  width = 52,
+  height = 40,
   children,
 }: RectIconButtonProps) {
   return (
@@ -21,8 +25,9 @@ export default function RectIconButton({
       type="button"
       aria-label={alt}
       onClick={onClick}
+      style={{ width, height }}
       className={cn(
-        "flex h-10 w-[52px] items-center justify-center rounded-m border border-stroke-med bg-background-none text-symb-secondary hover:border-stroke-max",
+        "flex shrink-0 items-center justify-center rounded-m border border-stroke-med bg-background-none text-symb-secondary hover:border-stroke-max",
         className,
       )}
     >

@@ -53,6 +53,8 @@ export default function UserList({
       {!isLoading ? (
         <RectIconButton
           alt="Создать пользователя"
+          width={52}
+          height={40}
           className="mt-3 text-symb-primary"
           onClick={onCreate}
         >

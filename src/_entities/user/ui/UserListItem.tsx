@@ -7,7 +7,11 @@ interface UserListItemProps {
   onClick?: () => void;
 }
 
-export default function UserListItem({ fullName, phoneVerified = true, onClick }: UserListItemProps) {
+export default function UserListItem({
+  fullName,
+  phoneVerified = true,
+  onClick,
+}: UserListItemProps) {
   const isUnverified = !phoneVerified;
 
   return (
@@ -15,7 +19,7 @@ export default function UserListItem({ fullName, phoneVerified = true, onClick }
       type="button"
       onClick={onClick}
       className={cn(
-        "group flex h-12 w-full items-center justify-between rounded-m px-5 text-left text-s   text-symb-primary",
+        "group flex h-12 w-full items-center justify-between rounded-m px-5 text-left text-s text-symb-primary",
         "group transition-colors duration-300 ease-in-out",
         isUnverified
           ? "bg-background-error hover:bg-background-error"

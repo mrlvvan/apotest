@@ -8,7 +8,7 @@ import DrawerInput from "@shared/ui/DrawerInput";
 interface ChangePhoneDrawerProps {
   phone: string;
   showValidation: boolean;
-  onClose: () => void;
+  onBack: () => void;
   onPhoneChange: (value: string) => void;
   onSubmit: () => void;
 }
@@ -16,13 +16,13 @@ interface ChangePhoneDrawerProps {
 export default function ChangePhoneDrawer({
   phone,
   showValidation,
-  onClose,
+  onBack,
   onPhoneChange,
   onSubmit,
 }: ChangePhoneDrawerProps) {
   return (
     <div className="flex min-h-dvh flex-col pb-8 pt-12">
-      <DrawerHeader title="Изменить номер" onClose={onClose} />
+      <DrawerHeader title="Изменить номер" back onBack={onBack} onClose={onBack} />
 
       <form className="flex flex-col" action="">
         <div className="grid gap-2">

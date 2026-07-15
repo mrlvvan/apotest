@@ -344,7 +344,10 @@ export default function DashboardClient() {
             <ChangePhoneDrawer
               phone={form.phone}
               showValidation={showValidation}
-              onClose={requestCloseDrawer}
+              onBack={() => {
+                setShowValidation(false);
+                setDrawerMode("view");
+              }}
               onPhoneChange={(value) => {
                 setForm((current) => ({ ...current, phone: value }));
                 setIsModified(true);

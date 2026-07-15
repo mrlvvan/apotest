@@ -4,8 +4,8 @@ import type { ReactNode } from "react";
 import { cn } from "@shared/lib/utils/css";
 
 const sizeClasses = {
-  back: "h-[36px] w-[44px]",
-  action: "h-[40px] w-[52px]",
+  back: "h-[36px] w-[44px] bg-background-med",
+  action: "h-[40px] w-[52px] bg-background-none",
 } as const;
 
 type RectIconButtonSize = keyof typeof sizeClasses;
@@ -31,7 +31,7 @@ export default function RectIconButton({
       aria-label={alt}
       onClick={onClick}
       className={cn(
-        "box-border flex shrink-0 items-center justify-center rounded-m border border-stroke-med bg-background-none p-0 text-symb-secondary hover:border-stroke-max",
+        "box-border flex shrink-0 items-center justify-center rounded-m border border-stroke-med p-0 text-symb-secondary hover:border-stroke-max",
         sizeClasses[size],
         className,
       )}

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type {
   ApiUser,
   DashboardUser,
@@ -55,6 +55,8 @@ export default function DashboardClient() {
   const [isModified, setIsModified] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
   const [showUnsavedModal, setShowUnsavedModal] = useState(false);
+  const [drawerKey, setDrawerKey] = useState(0);
+  const loadRequestIdRef = useRef(0);
 
   useEffect(() => {
     listUsers()
@@ -63,13 +65,37 @@ export default function DashboardClient() {
       .finally(() => setIsLoadingList(false));
   }, []);
 
-  async function openUser(user: DashboardUser) {
-    setDrawerMode("loading");
-    setShowValidation(false);
+  function invalidatePendingLoads() {
+    loadRequestIdRef.current += 1;
+  }
+
+  function resetDrawerContent() {
+    setSelectedUser(null);
+    setPendingConfirmationUser(null);
+    setPendingPhone("");
+    setPhoneConfirmSource("create");
+    setForm(emptyForm);
+    setSchedule(defaultSchedule);
+    setScheduleSet(false);
     setIsModified(false);
+    setShowValidation(false);
+    setShowUnsavedModal(false);
+  }
+
+  async function openUser(user: DashboardUser) {
+    const requestId = loadRequestIdRef.current + 1;
+    loadRequestIdRef.current = requestId;
+
+    resetDrawerContent();
+    setDrawerKey((current) => current + 1);
+    setDrawerMode("loading");
 
     try {
       const profile = await getUser(user.id);
+      if (requestId !== loadRequestIdRef.current) {
+        return;
+      }
+
       setSelectedUser(profile);
       setForm({
         surname: profile.surname,
@@ -80,11 +106,15 @@ export default function DashboardClient() {
       setSchedule(profile.schedule);
       setDrawerMode("view");
     } catch {
+      if (requestId !== loadRequestIdRef.current) {
+        return;
+      }
       closeDrawer();
     }
   }
 
   function openConfirmedUser(user: DashboardUser) {
+    invalidatePendingLoads();
     setSelectedUser(user);
     setForm({
       surname: user.surname,
@@ -93,6 +123,7 @@ export default function DashboardClient() {
       phone: formatPhone(user.phone),
     });
     setSchedule(user.schedule ?? defaultSchedule);
+    setDrawerKey((current) => current + 1);
     setDrawerMode("view");
     setIsModified(false);
     setShowValidation(false);
@@ -100,27 +131,16 @@ export default function DashboardClient() {
   }
 
   function openCreate() {
-    setSelectedUser(null);
-    setPendingConfirmationUser(null);
-    setForm(emptyForm);
-    setSchedule(defaultSchedule);
-    setScheduleSet(false);
+    invalidatePendingLoads();
+    resetDrawerContent();
+    setDrawerKey((current) => current + 1);
     setDrawerMode("create");
-    setIsModified(false);
-    setShowValidation(false);
   }
 
   function closeDrawer() {
+    invalidatePendingLoads();
     setDrawerMode(null);
-    setSelectedUser(null);
-    setPendingConfirmationUser(null);
-    setPendingPhone("");
-    setPhoneConfirmSource("create");
-    setSchedule(defaultSchedule);
-    setScheduleSet(false);
-    setIsModified(false);
-    setShowValidation(false);
-    setShowUnsavedModal(false);
+    resetDrawerContent();
   }
 
   function requestCloseDrawer() {
@@ -314,6 +334,7 @@ export default function DashboardClient() {
 
       {drawerMode ? (
         <DrawerShell
+          key={drawerKey}
           pending={drawerMode === "pending"}
           onClose={requestCloseDrawer}
         >
@@ -338,6 +359,7 @@ export default function DashboardClient() {
             />
           ) : drawerMode === "confirmPhone" ? (
             <ConfirmPhoneDrawer
+              key={pendingPhone || form.phone}
               phone={pendingPhone || form.phone}
               onBack={() =>
                 setDrawerMode(phoneConfirmSource === "change" ? "changePhone" : "create")

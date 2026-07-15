@@ -6,7 +6,7 @@ import Button from "@shared/ui/Button";
 import DrawerHeader from "@shared/ui/DrawerHeader";
 import { cn } from "@shared/lib/utils/css";
 
-const RESEND_SECONDS = 2 * 60 + 56;
+const RESEND_SECONDS = 3 * 60;
 
 function formatTimer(totalSeconds: number): string {
   const minutes = Math.floor(totalSeconds / 60)

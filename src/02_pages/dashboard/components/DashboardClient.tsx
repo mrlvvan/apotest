@@ -42,7 +42,7 @@ export default function DashboardClient() {
   const [scheduleSet, setScheduleSet] = useState(false);
   const [selectedUser, setSelectedUser] = useState<DashboardUser | null>(null);
   const [pendingConfirmationUser, setPendingConfirmationUser] = useState<DashboardUser | null>(
-    null,
+    null,  
   );
   const [form, setForm] = useState<UserForm>(emptyForm);
   const [schedule, setSchedule] = useState<Schedule>(defaultSchedule);

@@ -2,7 +2,8 @@
 
 import type { DashboardUser } from "@entities/user";
 import { UserListItem } from "@entities/user";
-import Button from "@shared/ui/Button";
+import { actionIcons } from "@shared/lib/icons";
+import RectIconButton from "@shared/ui/RectIconButton";
 
 interface UserListProps {
   users: DashboardUser[];
@@ -50,14 +51,12 @@ export default function UserList({
       </div>
 
       {!isLoading ? (
-        <Button
-          aria-label="Создать пользователя"
-          className="mt-3 h-10 w-[52px] rounded-m border border-stroke-med bg-background-none p-0 text-l text-symb-primary hover:border-stroke-max"
-          variant="tertiary"
+        <RectIconButton
+          src={actionIcons.plus}
+          alt="Создать пользователя"
+          className="mt-3"
           onClick={onCreate}
-        >
-          +
-        </Button>
+        />
       ) : null}
     </section>
   );

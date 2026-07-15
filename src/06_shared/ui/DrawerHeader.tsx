@@ -1,6 +1,8 @@
 "use client";
 
+import { actionIcons } from "@shared/lib/icons";
 import Icon from "@shared/ui/Icon";
+import RectIconButton from "@shared/ui/RectIconButton";
 
 interface DrawerHeaderProps {
   title: string;
@@ -18,14 +20,12 @@ export default function DrawerHeader({
   return (
     <header className="relative mb-10 flex h-10 items-center justify-center">
       {back ? (
-        <button
-          type="button"
-          aria-label="Назад"
+        <RectIconButton
+          src={actionIcons.back}
+          alt="Назад"
           onClick={onBack}
-          className="absolute left-0 flex h-10 w-[52px] items-center justify-center rounded-m border border-stroke-med bg-background-none text-symb-secondary hover:border-stroke-max"
-        >
-          <Icon name="arrow_back" className="text-[16px]" />
-        </button>
+          className="absolute left-0"
+        />
       ) : null}
       <h2 className="text-l font-normal">{title}</h2>
       {!back ? (

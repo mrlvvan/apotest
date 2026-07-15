@@ -2,7 +2,7 @@
 
 import type { DashboardUser, PositionCode, Schedule, UserForm } from "@entities/user";
 import { PhonePreview, SchedulePreview, positionLabels, positionOptions } from "@entities/user";
-import { normalizePhoneInput } from "@shared/lib/schedule";
+import { isPhoneComplete, normalizePhoneInput } from "@shared/lib/phone";
 import Button from "@shared/ui/Button";
 import DrawerHeader from "@shared/ui/DrawerHeader";
 import DrawerInput from "@shared/ui/DrawerInput";
@@ -84,12 +84,11 @@ export default function UserDrawer({
               <label className="text-s text-symb-primary">Номер телефона*</label>
               <DrawerInput
                 value={form.phone}
-                placeholder="+ 7 (000) 000–00–00"
+                placeholder="+7 (000)000 00 00"
                 inputMode="numeric"
-                maxLength={12}
-                pattern="[0-9]*"
+                maxLength={17}
                 normalizeValue={normalizePhoneInput}
-                error={showValidation && !form.phone ? "Обязательное поле" : undefined}
+                error={showValidation && !isPhoneComplete(form.phone) ? "Обязательное поле" : undefined}
                 onChange={(value) => onFieldChange("phone", value)}
               />
               <p className="text-s text-symb-secondary">

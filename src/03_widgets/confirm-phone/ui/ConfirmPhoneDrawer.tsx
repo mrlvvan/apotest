@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { formatPhone } from "@shared/lib/phone";
 import Button from "@shared/ui/Button";
 import DrawerHeader from "@shared/ui/DrawerHeader";
 import { cn } from "@shared/lib/utils/css";
@@ -58,7 +59,7 @@ export default function ConfirmPhoneDrawer({
 
       <div className="mx-auto mt-8 grid w-[220px] justify-items-center gap-8 text-center">
         <p className="text-l leading-[1.35] text-symb-primary">
-          Отправили код подтверждения на номер {phone || "+ 7 (998) 673–21–34"}
+          Отправили код подтверждения на номер {formatPhone(phone || "+79986732134")}
         </p>
 
         <div className="flex gap-2">

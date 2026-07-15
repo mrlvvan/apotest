@@ -21,6 +21,7 @@ import {
   updateUser,
 } from "@entities/user";
 import { UserList } from "@features/user-list";
+import { formatPhone, isPhoneComplete, phoneToApi } from "@shared/lib/phone";
 import DrawerLoading from "@shared/ui/DrawerLoading";
 import DrawerShell from "@shared/ui/DrawerShell";
 import { ChangePhoneDrawer } from "@widgets/change-phone";
@@ -74,7 +75,7 @@ export default function DashboardClient() {
         surname: profile.surname,
         name: profile.name,
         position: profile.position,
-        phone: profile.phone,
+        phone: formatPhone(profile.phone),
       });
       setSchedule(profile.schedule);
       setDrawerMode("view");
@@ -89,7 +90,7 @@ export default function DashboardClient() {
       surname: user.surname,
       name: user.name,
       position: user.position,
-      phone: user.phone,
+      phone: formatPhone(user.phone),
     });
     setSchedule(user.schedule ?? defaultSchedule);
     setDrawerMode("view");
@@ -140,7 +141,7 @@ export default function DashboardClient() {
   }
 
   async function handleCreateSubmit() {
-    if (!form.surname || !form.name || !form.position || !form.phone) {
+    if (!form.surname || !form.name || !form.position || !isPhoneComplete(form.phone)) {
       setShowValidation(true);
       return;
     }
@@ -148,19 +149,20 @@ export default function DashboardClient() {
     setDrawerMode("pending");
 
     try {
+      const phone = phoneToApi(form.phone);
       const createdUser = await createUser({
         name: form.name,
         surname: form.surname,
         middlename: " ",
         position: form.position as PositionCode,
-        phone: form.phone,
+        phone,
         schedule,
       });
 
-      await sendCode(createdUser.id, form.phone);
+      await sendCode(createdUser.id, phone);
 
       setPendingConfirmationUser(createdUser);
-      setPendingPhone(form.phone);
+      setPendingPhone(phone);
       setPhoneConfirmSource("create");
       setDrawerMode("confirmPhone");
     } catch {
@@ -227,7 +229,7 @@ export default function DashboardClient() {
   }
 
   async function handlePhoneChangeSubmit() {
-    if (!selectedUser || !form.phone) {
+    if (!selectedUser || !isPhoneComplete(form.phone)) {
       setShowValidation(true);
       return;
     }
@@ -235,9 +237,10 @@ export default function DashboardClient() {
     setDrawerMode("pending");
 
     try {
-      await sendCode(selectedUser.id, form.phone);
+      const phone = phoneToApi(form.phone);
+      await sendCode(selectedUser.id, phone);
       setPendingConfirmationUser(selectedUser);
-      setPendingPhone(form.phone);
+      setPendingPhone(phone);
       setPhoneConfirmSource("change");
       setShowValidation(false);
       setDrawerMode("confirmPhone");
@@ -257,7 +260,7 @@ export default function DashboardClient() {
     try {
       const confirmedUser = await confirmCode(
         pendingConfirmationUser.id,
-        pendingPhone || pendingConfirmationUser.phone,
+        phoneToApi(pendingPhone || pendingConfirmationUser.phone),
         "1111",
       );
 
@@ -347,7 +350,7 @@ export default function DashboardClient() {
               onOpenPhoneChange={() => {
                 setForm((current) => ({
                   ...current,
-                  phone: selectedUser?.phone || "",
+                  phone: formatPhone(selectedUser?.phone || ""),
                 }));
                 setShowValidation(false);
                 setDrawerMode("changePhone");

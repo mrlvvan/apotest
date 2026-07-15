@@ -25,11 +25,6 @@ export function onlyDigits(value: string): string {
   return value.replace(/\D/g, "");
 }
 
-export function normalizePhoneInput(value: string): string {
-  const digits = value.replace(/\D/g, "").slice(0, 11);
-  return digits ? `+${digits}` : "+";
-}
-
 export function normalizeTimeInput(value: string): string {
   const digits = onlyDigits(value).slice(0, 4);
   if (digits.length <= 2) {

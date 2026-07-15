@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPhone } from "@shared/lib/phone";
 import Icon from "@shared/ui/Icon";
 
 interface PhonePreviewProps {
@@ -9,6 +10,8 @@ interface PhonePreviewProps {
 }
 
 export default function PhonePreview({ phone, verified, onClick }: PhonePreviewProps) {
+  const displayPhone = formatPhone(phone);
+
   if (verified) {
     return (
       <button
@@ -16,7 +19,7 @@ export default function PhonePreview({ phone, verified, onClick }: PhonePreviewP
         onClick={onClick}
         className="h-12 w-full rounded-m bg-background-med px-4 text-left text-s text-symb-secondary transition-colors hover:bg-neutral-min"
       >
-        {phone}
+        {displayPhone}
       </button>
     );
   }
@@ -28,7 +31,7 @@ export default function PhonePreview({ phone, verified, onClick }: PhonePreviewP
       className="grid w-full overflow-hidden rounded-m text-left text-s transition-opacity hover:opacity-95"
     >
       <span className="flex h-12 items-center justify-between bg-background-error px-4 text-symb-primary">
-        <span>{phone}</span>
+        <span>{displayPhone}</span>
         <Icon name="info" className="text-[18px] text-symb-primary" />
       </span>
       <span className="bg-background-med px-4 py-2 text-s text-symb-primary">

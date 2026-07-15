@@ -1,6 +1,6 @@
 "use client";
 
-import { normalizePhoneInput } from "@shared/lib/schedule";
+import { isPhoneComplete, normalizePhoneInput } from "@shared/lib/phone";
 import Button from "@shared/ui/Button";
 import DrawerHeader from "@shared/ui/DrawerHeader";
 import DrawerInput from "@shared/ui/DrawerInput";
@@ -29,12 +29,11 @@ export default function ChangePhoneDrawer({
           <label className="text-s text-symb-primary">Введите новый номер</label>
           <DrawerInput
             value={phone}
-            placeholder="+ 7 (000) 000–00–00"
+            placeholder="+7 (000)000 00 00"
             inputMode="numeric"
-            maxLength={12}
-            pattern="[0-9]*"
+            maxLength={17}
             normalizeValue={normalizePhoneInput}
-            error={showValidation && !phone ? "Обязательное поле" : undefined}
+            error={showValidation && !isPhoneComplete(phone) ? "Обязательное поле" : undefined}
             onChange={onPhoneChange}
           />
           <p className="text-s text-symb-secondary">

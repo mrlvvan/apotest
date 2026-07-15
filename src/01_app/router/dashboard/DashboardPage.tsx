@@ -1,4 +1,4 @@
-import { Dashboard } from "../../../02_pages/dashboard";
+import { Dashboard } from "@pages/dashboard";
 
 export default async function DashboardPage() {
   return <Dashboard />;

@@ -1,4 +1,5 @@
 import { cn } from "@shared/lib/utils/css";
+import { ErrorIcon } from "@shared/ui/ActionIcons";
 import Icon from "@shared/ui/Icon";
 
 interface UserListItemProps {
@@ -29,10 +30,9 @@ export default function UserListItem({
       <span className="truncate">{fullName}</span>
       <span className="relative ml-4 flex size-8 shrink-0 items-center justify-center rounded-s">
         {isUnverified ? (
-          <Icon
-            name="info"
-            className="absolute text-[20px] text-symb-primary opacity-100 transition-opacity group-hover:opacity-0"
-          />
+          <span className="absolute opacity-100 transition-opacity group-hover:opacity-0">
+            <ErrorIcon />
+          </span>
         ) : null}
         <span className="absolute flex size-8 items-center justify-center rounded-s bg-background-none opacity-0 transition-opacity group-hover:opacity-100">
           <Icon name="chevron_right" className="text-[20px] text-symb-primary" />

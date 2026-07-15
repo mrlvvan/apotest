@@ -1,6 +1,7 @@
 "use client";
 
 import { formatPhone } from "@shared/lib/phone";
+import { ErrorIcon } from "@shared/ui/ActionIcons";
 import Icon from "@shared/ui/Icon";
 
 interface PhonePreviewProps {
@@ -44,10 +45,9 @@ export default function PhonePreview({ phone, verified, onClick }: PhonePreviewP
       >
         <span>{displayPhone}</span>
         <span className="relative ml-4 flex size-8 shrink-0 items-center justify-center">
-          <Icon
-            name="info"
-            className="absolute text-[20px] text-symb-primary opacity-100 transition-opacity group-hover:opacity-0"
-          />
+          <span className="absolute opacity-100 transition-opacity group-hover:opacity-0">
+            <ErrorIcon />
+          </span>
           <PhoneChevron />
         </span>
       </button>

@@ -36,3 +36,16 @@ export function DeleteIcon() {
     />
   );
 }
+
+export function ErrorIcon() {
+  return (
+    <img
+      src="/icons/error.svg"
+      alt=""
+      width={16}
+      height={16}
+      aria-hidden
+      className="block shrink-0"
+    />
+  );
+}

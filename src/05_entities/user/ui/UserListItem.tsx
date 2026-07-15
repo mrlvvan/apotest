@@ -21,7 +21,7 @@ export default function UserListItem({
       onClick={onClick}
       className={cn(
         "group flex h-12 w-full items-center justify-between rounded-m px-5 text-left text-s text-symb-primary",
-        "group transition-colors duration-300 ease-in-out",
+        "transition-colors duration-300 ease-in-out",
         isUnverified
           ? "bg-background-error hover:bg-neutral-min"
           : "bg-background-med hover:bg-neutral-min",
@@ -30,9 +30,7 @@ export default function UserListItem({
       <span className="truncate">{fullName}</span>
       <span className="relative ml-4 flex size-8 shrink-0 items-center justify-center rounded-s">
         {isUnverified ? (
-          <span className="absolute opacity-100 transition-opacity group-hover:opacity-0">
-            <ErrorIcon />
-          </span>
+          <ErrorIcon className="absolute opacity-100 transition-opacity group-hover:opacity-0" />
         ) : null}
         <span className="absolute flex size-8 items-center justify-center rounded-s bg-background-none opacity-0 transition-opacity group-hover:opacity-100">
           <Icon name="chevron_right" className="text-[20px] text-symb-primary" />

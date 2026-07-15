@@ -10,9 +10,11 @@ interface PhonePreviewProps {
   onClick?: () => void;
 }
 
-function PhoneChevron() {
+function PhoneChevron({ className }: { className?: string }) {
   return (
-    <span className="absolute flex size-8 items-center justify-center rounded-s bg-background-none opacity-0 transition-opacity group-hover:opacity-100">
+    <span
+      className={`flex size-8 items-center justify-center rounded-s bg-background-none ${className ?? ""}`}
+    >
       <Icon name="chevron_right" className="text-[20px] text-symb-primary" />
     </span>
   );
@@ -30,7 +32,7 @@ export default function PhonePreview({ phone, verified, onClick }: PhonePreviewP
       >
         <span>{displayPhone}</span>
         <span className="relative ml-4 flex size-8 shrink-0 items-center justify-center">
-          <PhoneChevron />
+          <PhoneChevron className="absolute opacity-0 transition-opacity group-hover:opacity-100" />
         </span>
       </button>
     );
@@ -45,10 +47,8 @@ export default function PhonePreview({ phone, verified, onClick }: PhonePreviewP
       >
         <span>{displayPhone}</span>
         <span className="relative ml-4 flex size-8 shrink-0 items-center justify-center">
-          <span className="absolute opacity-100 transition-opacity group-hover:opacity-0">
-            <ErrorIcon />
-          </span>
-          <PhoneChevron />
+          <ErrorIcon className="absolute opacity-100 transition-opacity group-hover:opacity-0" />
+          <PhoneChevron className="absolute opacity-0 transition-opacity group-hover:opacity-100" />
         </span>
       </button>
       <div className="rounded-m bg-background-med px-4 py-2 text-s text-symb-primary">

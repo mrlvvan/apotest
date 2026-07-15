@@ -37,6 +37,7 @@ function listUserToDashboardUser(user: ApiUser): DashboardUser {
 
 export default function DashboardClient() {
   const [users, setUsers] = useState<DashboardUser[]>([]);
+  const [isLoadingList, setIsLoadingList] = useState(true);
   const [drawerMode, setDrawerMode] = useState<DrawerMode | null>(null);
   const [scheduleReturnMode, setScheduleReturnMode] = useState<"view" | "create">("view");
   const [scheduleSet, setScheduleSet] = useState(false);
@@ -53,7 +54,8 @@ export default function DashboardClient() {
   useEffect(() => {
     listUsers()
       .then((items) => setUsers(items.map(listUserToDashboardUser)))
-      .catch(() => setUsers([]));
+      .catch(() => setUsers([]))
+      .finally(() => setIsLoadingList(false));
   }, []);
 
   async function openUser(user: DashboardUser) {
@@ -249,7 +251,12 @@ export default function DashboardClient() {
       </aside>
 
       <main className="ml-[76px] min-h-dvh">
-        <UserList users={users} onOpenUser={openUser} onCreate={openCreate} />
+        <UserList
+          users={users}
+          isLoading={isLoadingList}
+          onOpenUser={openUser}
+          onCreate={openCreate}
+        />
       </main>
 
       {drawerMode ? (

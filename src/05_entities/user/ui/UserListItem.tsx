@@ -31,7 +31,8 @@ export default function UserListItem({
         {isUnverified ? (
           <Icon
             name="info"
-            className="absolute text-[20px] text-symb-primary opacity-100 transition-opacity group-hover:opacity-0"
+            size={16}
+            className="absolute text-symb-primary opacity-100 transition-opacity group-hover:opacity-0"
           />
         ) : null}
         <span className="absolute flex size-8 items-center justify-center rounded-s bg-background-none opacity-0 transition-opacity group-hover:opacity-100">

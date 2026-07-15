@@ -9,6 +9,14 @@ interface PhonePreviewProps {
   onClick?: () => void;
 }
 
+function PhoneChevron() {
+  return (
+    <span className="absolute flex size-8 items-center justify-center rounded-s bg-background-none opacity-0 transition-opacity group-hover:opacity-100">
+      <Icon name="chevron_right" className="text-[20px] text-symb-primary" />
+    </span>
+  );
+}
+
 export default function PhonePreview({ phone, verified, onClick }: PhonePreviewProps) {
   const displayPhone = formatPhone(phone);
 
@@ -17,26 +25,35 @@ export default function PhonePreview({ phone, verified, onClick }: PhonePreviewP
       <button
         type="button"
         onClick={onClick}
-        className="h-12 w-full rounded-m bg-background-med px-4 text-left text-s text-symb-secondary transition-colors hover:bg-neutral-min"
+        className="group flex h-12 w-full items-center justify-between rounded-m bg-background-med px-4 text-left text-s text-symb-secondary transition-colors hover:bg-neutral-min"
       >
-        {displayPhone}
+        <span>{displayPhone}</span>
+        <span className="relative ml-4 flex size-8 shrink-0 items-center justify-center">
+          <PhoneChevron />
+        </span>
       </button>
     );
   }
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="group grid w-full gap-1 overflow-hidden rounded-m text-left text-s"
-    >
-      <span className="flex h-12 items-center justify-between rounded-m bg-background-error px-4 text-symb-primary transition-colors group-hover:bg-neutral-min">
+    <div className="grid w-full gap-1">
+      <button
+        type="button"
+        onClick={onClick}
+        className="group flex h-12 w-full items-center justify-between rounded-m bg-background-error px-4 text-left text-s text-symb-primary transition-colors hover:bg-neutral-min"
+      >
         <span>{displayPhone}</span>
-        <Icon name="info" className="text-[18px] text-symb-primary" />
-      </span>
-      <span className="rounded-m bg-background-med px-4 py-2 text-s text-symb-primary transition-colors group-hover:bg-neutral-min">
+        <span className="relative ml-4 flex size-8 shrink-0 items-center justify-center">
+          <Icon
+            name="info"
+            className="absolute text-[20px] text-symb-primary opacity-100 transition-opacity group-hover:opacity-0"
+          />
+          <PhoneChevron />
+        </span>
+      </button>
+      <div className="rounded-m bg-background-med px-4 py-2 text-s text-symb-primary">
         Требуется подтверждение
-      </span>
-    </button>
+      </div>
+    </div>
   );
 }

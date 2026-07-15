@@ -22,9 +22,9 @@ export default function DrawerHeader({
           type="button"
           aria-label="Назад"
           onClick={onBack}
-          className="absolute left-0 flex size-10 items-center justify-center rounded-m bg-background-min text-symb-secondary hover:bg-background-med"
+          className="absolute left-0 flex h-10 w-[52px] items-center justify-center rounded-m border border-stroke-med bg-background-none text-symb-secondary hover:border-stroke-max"
         >
-          <Icon name="arrow_back" />
+          <Icon name="arrow_back" className="text-[16px]" />
         </button>
       ) : null}
       <h2 className="text-l font-normal">{title}</h2>

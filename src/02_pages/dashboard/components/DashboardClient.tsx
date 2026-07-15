@@ -299,7 +299,10 @@ export default function DashboardClient() {
       </main>
 
       {drawerMode ? (
-        <DrawerShell pending={drawerMode === "pending"}>
+        <DrawerShell
+          pending={drawerMode === "pending"}
+          onClose={requestCloseDrawer}
+        >
           {drawerMode === "loading" ? (
             <DrawerLoading />
           ) : drawerMode === "pending" ? null : drawerMode === "changePhone" ? (
@@ -309,6 +312,7 @@ export default function DashboardClient() {
               onClose={requestCloseDrawer}
               onPhoneChange={(value) => {
                 setForm((current) => ({ ...current, phone: value }));
+                setIsModified(true);
               }}
               onSubmit={handlePhoneChangeSubmit}
             />

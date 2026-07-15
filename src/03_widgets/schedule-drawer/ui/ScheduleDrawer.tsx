@@ -9,10 +9,10 @@ import {
   secondsToTime,
   timeToSeconds,
 } from "@shared/lib/schedule";
+import { DeleteIcon, PlusIcon } from "@shared/ui/ActionIcons";
 import Button from "@shared/ui/Button";
 import CallPolicySelect from "@shared/ui/CallPolicySelect";
 import DrawerHeader from "@shared/ui/DrawerHeader";
-import { actionIcons } from "@shared/lib/icons";
 import RectIconButton from "@shared/ui/RectIconButton";
 import TimeInput from "@shared/ui/TimeInput";
 
@@ -87,25 +87,21 @@ export default function ScheduleDrawer({ schedule, onBack, onSave }: ScheduleDra
             </div>
           ) : (
             <RectIconButton
-              src={actionIcons.plus.src}
               alt="Добавить обед"
-              iconWidth={actionIcons.plus.width}
-              iconHeight={actionIcons.plus.height}
+              className="text-symb-primary"
               onClick={() => setHasLunch(true)}
-            />
+            >
+              <PlusIcon />
+            </RectIconButton>
           )}
           {hasLunch ? (
             <>
               <span className="text-l text-symb-secondary">В обеденное время</span>
               <CallPolicySelect value={lunchPolicy} onChange={setLunchPolicy} />
               <span />
-              <RectIconButton
-                src={actionIcons.delete.src}
-                alt="Удалить обед"
-                iconWidth={actionIcons.delete.width}
-                iconHeight={actionIcons.delete.height}
-                onClick={() => setHasLunch(false)}
-              />
+              <RectIconButton alt="Удалить обед" onClick={() => setHasLunch(false)}>
+                <DeleteIcon />
+              </RectIconButton>
             </>
           ) : null}
         </div>

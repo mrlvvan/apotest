@@ -1,23 +1,20 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { cn } from "@shared/lib/utils/css";
 
 interface RectIconButtonProps {
-  src: string;
   alt: string;
   onClick?: () => void;
   className?: string;
-  iconWidth?: number;
-  iconHeight?: number;
+  children: ReactNode;
 }
 
 export default function RectIconButton({
-  src,
   alt,
   onClick,
   className,
-  iconWidth = 16,
-  iconHeight = 16,
+  children,
 }: RectIconButtonProps) {
   return (
     <button
@@ -25,18 +22,11 @@ export default function RectIconButton({
       aria-label={alt}
       onClick={onClick}
       className={cn(
-        "flex h-10 w-[52px] items-center justify-center rounded-m border border-stroke-med bg-background-none hover:border-stroke-max",
+        "flex h-10 w-[52px] items-center justify-center rounded-m border border-stroke-med bg-background-none text-symb-secondary hover:border-stroke-max",
         className,
       )}
     >
-      <img
-        src={src}
-        alt=""
-        width={iconWidth}
-        height={iconHeight}
-        aria-hidden
-        className="block shrink-0"
-      />
+      {children}
     </button>
   );
 }

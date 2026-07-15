@@ -2,7 +2,7 @@
 
 import type { DashboardUser } from "@entities/user";
 import { UserListItem } from "@entities/user";
-import { actionIcons } from "@shared/lib/icons";
+import { PlusIcon } from "@shared/ui/ActionIcons";
 import RectIconButton from "@shared/ui/RectIconButton";
 
 interface UserListProps {
@@ -52,13 +52,12 @@ export default function UserList({
 
       {!isLoading ? (
         <RectIconButton
-          src={actionIcons.plus.src}
           alt="Создать пользователя"
-          iconWidth={actionIcons.plus.width}
-          iconHeight={actionIcons.plus.height}
-          className="mt-3"
+          className="mt-3 text-symb-primary"
           onClick={onCreate}
-        />
+        >
+          <PlusIcon />
+        </RectIconButton>
       ) : null}
     </section>
   );

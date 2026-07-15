@@ -88,7 +88,7 @@ export default function ScheduleDrawer({ schedule, onBack, onSave }: ScheduleDra
             <button
               type="button"
               onClick={() => setHasLunch(true)}
-              className="flex size-10 items-center justify-center rounded-m border border-stroke-med bg-background-none text-l"
+              className="flex h-10 w-[52px] items-center justify-center rounded-m border border-stroke-med bg-background-none text-l text-symb-primary hover:border-stroke-max"
             >
               +
             </button>
@@ -101,9 +101,9 @@ export default function ScheduleDrawer({ schedule, onBack, onSave }: ScheduleDra
               <button
                 type="button"
                 onClick={() => setHasLunch(false)}
-                className="flex size-10 items-center justify-center rounded-m border border-stroke-med bg-background-none text-l"
+                className="flex h-10 w-[52px] items-center justify-center rounded-m border border-stroke-med bg-background-none text-symb-primary hover:border-stroke-max"
               >
-                <Icon name="delete" className="text-[18px]" />
+                <Icon name="delete" className="text-[16px] text-symb-secondary" />
               </button>
             </>
           ) : null}

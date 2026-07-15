@@ -24,26 +24,28 @@ export default function ChangePhoneDrawer({
     <div className="flex min-h-dvh flex-col pb-8 pt-12">
       <DrawerHeader title="Изменить номер" onClose={onClose} />
 
-      <div className="grid flex-1 gap-4">
-        <label className="text-s text-symb-primary">Введите новый номер</label>
-        <DrawerInput
-          value={phone}
-          placeholder="+ 7 (000) 000–00–00"
-          inputMode="numeric"
-          maxLength={12}
-          pattern="[0-9]*"
-          normalizeValue={normalizePhoneInput}
-          error={showValidation && !phone ? "Обязательное поле" : undefined}
-          onChange={onPhoneChange}
-        />
-        <p className="text-s text-symb-secondary">
-          Вышлем SMS-код. Без подтверждения пользователь не будет добавлен
-        </p>
-      </div>
+      <form className="flex flex-col" action="">
+        <div className="grid gap-2">
+          <label className="text-s text-symb-primary">Введите новый номер</label>
+          <DrawerInput
+            value={phone}
+            placeholder="+ 7 (000) 000–00–00"
+            inputMode="numeric"
+            maxLength={12}
+            pattern="[0-9]*"
+            normalizeValue={normalizePhoneInput}
+            error={showValidation && !phone ? "Обязательное поле" : undefined}
+            onChange={onPhoneChange}
+          />
+          <p className="text-s text-symb-secondary">
+            Вышлем SMS-код. Без подтверждения пользователь не будет добавлен
+          </p>
+        </div>
 
-      <Button className="mt-auto self-end" size="M" variant="primary" onClick={onSubmit}>
-        Подтвердить
-      </Button>
+        <Button className="mt-8 self-end" size="M" variant="primary" onClick={onSubmit}>
+          Подтвердить
+        </Button>
+      </form>
     </div>
   );
 }

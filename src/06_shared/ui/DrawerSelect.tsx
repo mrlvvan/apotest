@@ -57,7 +57,7 @@ export default function DrawerSelect({
                 setIsOpen(false);
               }}
               className={cn(
-                "flex h-10 w-full items-center px-4 text-left transition-colors hover:bg-background-med",
+                "flex h-9 w-full items-center px-4 text-left transition-colors hover:bg-background-med",
                 option.label === value && "bg-background-med",
               )}
             >

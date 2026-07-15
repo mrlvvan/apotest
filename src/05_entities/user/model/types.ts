@@ -1,4 +1,10 @@
-export type DrawerMode = "view" | "create" | "confirmPhone" | "schedule" | "loading";
+export type DrawerMode =
+  | "view"
+  | "create"
+  | "confirmPhone"
+  | "schedule"
+  | "loading"
+  | "pending";
 
 export type PositionCode =
   | "manager"

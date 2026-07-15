@@ -117,7 +117,7 @@ export default function DashboardClient() {
   }
 
   function requestCloseDrawer() {
-    if (isModified && drawerMode !== "loading") {
+    if (isModified && drawerMode !== "loading" && drawerMode !== "pending") {
       setShowUnsavedModal(true);
       return;
     }
@@ -139,7 +139,7 @@ export default function DashboardClient() {
       return;
     }
 
-    setDrawerMode("loading");
+    setDrawerMode("pending");
 
     try {
       const createdUser = await createUser({
@@ -166,7 +166,7 @@ export default function DashboardClient() {
       return;
     }
 
-    setDrawerMode("loading");
+    setDrawerMode("pending");
 
     try {
       const updatedUser = await updateUser(selectedUser.id, {
@@ -197,7 +197,7 @@ export default function DashboardClient() {
       return;
     }
 
-    setDrawerMode("loading");
+    setDrawerMode("pending");
 
     try {
       const updatedUser = await updateUser(selectedUser.id, {
@@ -223,7 +223,7 @@ export default function DashboardClient() {
       return;
     }
 
-    setDrawerMode("loading");
+    setDrawerMode("pending");
 
     try {
       const confirmedUser = await confirmCode(
@@ -260,10 +260,10 @@ export default function DashboardClient() {
       </main>
 
       {drawerMode ? (
-        <DrawerShell>
+        <DrawerShell pending={drawerMode === "pending"}>
           {drawerMode === "loading" ? (
             <DrawerLoading />
-          ) : drawerMode === "schedule" ? (
+          ) : drawerMode === "pending" ? null : drawerMode === "schedule" ? (
             <ScheduleDrawer
               schedule={schedule}
               onBack={() => setDrawerMode(scheduleReturnMode)}

@@ -284,6 +284,17 @@ export default function DashboardClient() {
     }
   }
 
+  async function handleResendCode() {
+    if (!pendingConfirmationUser) {
+      return;
+    }
+
+    await sendCode(
+      pendingConfirmationUser.id,
+      phoneToApi(pendingPhone || pendingConfirmationUser.phone),
+    );
+  }
+
   return (
     <div className="min-h-dvh min-w-[640px] overflow-x-hidden bg-background-none text-symb-primary">
       <aside className="fixed inset-y-0 left-0 z-10 w-[76px] border-r border-stroke-med bg-background-none">
@@ -332,6 +343,7 @@ export default function DashboardClient() {
                 setDrawerMode(phoneConfirmSource === "change" ? "changePhone" : "create")
               }
               onConfirm={handleConfirmPhone}
+              onResend={handleResendCode}
             />
           ) : (
             <UserDrawer

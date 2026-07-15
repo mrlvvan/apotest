@@ -13,7 +13,7 @@ interface PhonePreviewProps {
 function PhoneChevron({ className }: { className?: string }) {
   return (
     <span
-      className={`flex size-8 items-center justify-center rounded-s bg-background-none ${className ?? ""}`}
+      className={`flex size-8 items-center justify-center rounded-s bg-background-med ${className ?? ""}`}
     >
       <Icon name="chevron_right" className="text-[20px] text-symb-primary" />
     </span>

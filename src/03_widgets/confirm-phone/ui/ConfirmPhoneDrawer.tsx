@@ -1,27 +1,54 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { formatPhone } from "@shared/lib/phone";
 import Button from "@shared/ui/Button";
 import DrawerHeader from "@shared/ui/DrawerHeader";
 import { cn } from "@shared/lib/utils/css";
 
+const RESEND_SECONDS = 2 * 60 + 56;
+
+function formatTimer(totalSeconds: number): string {
+  const minutes = Math.floor(totalSeconds / 60)
+    .toString()
+    .padStart(2, "0");
+  const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${seconds}`;
+}
+
 interface ConfirmPhoneDrawerProps {
   phone: string;
   onBack: () => void;
   onConfirm: () => void;
+  onResend?: () => void | Promise<void>;
 }
 
 export default function ConfirmPhoneDrawer({
   phone,
   onBack,
   onConfirm,
+  onResend,
 }: ConfirmPhoneDrawerProps) {
   const [code, setCode] = useState(["", "", "", ""]);
   const [hasError, setHasError] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(RESEND_SECONDS);
+  const [isResending, setIsResending] = useState(false);
   const joinedCode = code.join("");
   const canSubmit = joinedCode.length === 4 && !hasError;
+  const canResend = secondsLeft <= 0 && !isResending;
   const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
+
+  useEffect(() => {
+    if (secondsLeft <= 0) {
+      return;
+    }
+
+    const id = window.setInterval(() => {
+      setSecondsLeft((current) => Math.max(0, current - 1));
+    }, 1000);
+
+    return () => window.clearInterval(id);
+  }, [secondsLeft]);
 
   function updateCode(index: number, value: string) {
     const digits = value.replace(/\D/g, "");
@@ -51,6 +78,23 @@ export default function ConfirmPhoneDrawer({
     }
 
     setHasError(true);
+  }
+
+  async function handleResend() {
+    if (!canResend) {
+      return;
+    }
+
+    setIsResending(true);
+    try {
+      await onResend?.();
+      setCode(["", "", "", ""]);
+      setHasError(false);
+      setSecondsLeft(RESEND_SECONDS);
+      inputsRef.current[0]?.focus();
+    } finally {
+      setIsResending(false);
+    }
   }
 
   return (
@@ -99,11 +143,17 @@ export default function ConfirmPhoneDrawer({
           Подтвердить
         </Button>
 
-        {hasError ? (
-          <Button className="w-full" disabled size="M" variant="tertiary">
-            Отправить код снова&nbsp; 02:56
-          </Button>
-        ) : null}
+        <Button
+          className="w-full"
+          disabled={!canResend}
+          size="M"
+          variant="tertiary"
+          onClick={handleResend}
+        >
+          {canResend
+            ? "Отправить код снова"
+            : `Отправить код снова\u00A0 ${formatTimer(secondsLeft)}`}
+        </Button>
       </div>
     </div>
   );

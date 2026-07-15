@@ -32,7 +32,7 @@ export default function UserListItem({
         {isUnverified ? (
           <ErrorIcon className="absolute opacity-100 transition-opacity group-hover:opacity-0" />
         ) : null}
-        <span className="absolute flex size-8 items-center justify-center rounded-s bg-background-none opacity-0 transition-opacity group-hover:opacity-100">
+        <span className="absolute flex size-8 items-center justify-center rounded-s bg-background-med opacity-0 transition-opacity group-hover:opacity-100">
           <Icon name="chevron_right" className="text-[20px] text-symb-primary" />
         </span>
       </span>

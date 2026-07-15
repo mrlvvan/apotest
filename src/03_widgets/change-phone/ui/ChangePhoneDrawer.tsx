@@ -36,6 +36,9 @@ export default function ChangePhoneDrawer({
             error={showValidation && !isPhoneComplete(phone) ? "Обязательное поле" : undefined}
             onChange={onPhoneChange}
           />
+          <div className="rounded-m bg-background-med px-4 py-2 text-s text-symb-primary">
+            Требуется подтверждение
+          </div>
           <p className="text-s text-symb-secondary">
             Вышлем SMS-код. Без подтверждения пользователь не будет добавлен
           </p>

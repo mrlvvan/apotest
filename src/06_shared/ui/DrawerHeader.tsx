@@ -18,9 +18,13 @@ export default function DrawerHeader({
   onClose,
 }: DrawerHeaderProps) {
   return (
-    <header className="relative mb-10 flex h-10 items-center justify-center">
+    <header className="relative mb-10 flex h-9 items-center justify-center">
       {back ? (
-        <RectIconButton alt="Назад" onClick={onBack} className="absolute left-0">
+        <RectIconButton
+          alt="Назад"
+          onClick={onBack}
+          className="absolute left-0 h-9 w-[44px]"
+        >
           <BackIcon />
         </RectIconButton>
       ) : null}
@@ -30,7 +34,7 @@ export default function DrawerHeader({
           type="button"
           aria-label="Закрыть"
           onClick={onClose}
-          className="absolute right-0 flex size-10 items-center justify-center rounded-m bg-background-min text-symb-secondary hover:bg-background-med"
+          className="absolute right-0 flex size-9 items-center justify-center rounded-m bg-background-min text-symb-secondary hover:bg-background-med"
         >
           <Icon name="close" />
         </button>

@@ -99,7 +99,11 @@ export default function ScheduleDrawer({ schedule, onBack, onSave }: ScheduleDra
               <span className="text-l text-symb-secondary">В обеденное время</span>
               <CallPolicySelect value={lunchPolicy} onChange={setLunchPolicy} />
               <span />
-              <RectIconButton alt="Удалить обед" onClick={() => setHasLunch(false)}>
+              <RectIconButton
+                alt="Удалить обед"
+                className="h-10 w-[52px]"
+                onClick={() => setHasLunch(false)}
+              >
                 <DeleteIcon />
               </RectIconButton>
             </>

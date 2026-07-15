@@ -7,7 +7,11 @@ interface UserListItemProps {
   onClick?: () => void;
 }
 
-export default function UserListItem({ fullName, phoneVerified = true, onClick }: UserListItemProps) {
+export default function UserListItem({
+  fullName,
+  phoneVerified = true,
+  onClick,
+}: UserListItemProps) {
   const isUnverified = !phoneVerified;
 
   return (

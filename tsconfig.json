@@ -28,6 +28,15 @@
       "@pages/*": [
         "./src/_pages/*"
       ],
+      "@widgets/*": [
+        "./src/_widgets/*"
+      ],
+      "@features/*": [
+        "./src/_features/*"
+      ],
+      "@entities/*": [
+        "./src/_entities/*"
+      ],
       "@shared/*": [
         "./src/_shared/*"
       ]

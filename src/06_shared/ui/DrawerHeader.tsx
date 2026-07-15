@@ -11,6 +11,19 @@ interface DrawerHeaderProps {
   onClose: () => void;
 }
 
+function DrawerCloseButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      aria-label="Закрыть"
+      onClick={onClick}
+      className="absolute right-0 box-border flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-m border-0 bg-background-min p-0 text-symb-secondary hover:bg-background-med"
+    >
+      <Icon name="close" className="text-[16px]" />
+    </button>
+  );
+}
+
 export default function DrawerHeader({
   title,
   back = false,
@@ -18,12 +31,11 @@ export default function DrawerHeader({
   onClose,
 }: DrawerHeaderProps) {
   return (
-    <header className="relative mb-10 flex h-9 items-center justify-center">
+    <header className="relative mb-10 flex h-[36px] items-center justify-center">
       {back ? (
         <RectIconButton
           alt="Назад"
-          width={44}
-          height={36}
+          size="back"
           onClick={onBack}
           className="absolute left-0"
         >
@@ -31,17 +43,7 @@ export default function DrawerHeader({
         </RectIconButton>
       ) : null}
       <h2 className="text-l font-normal">{title}</h2>
-      {!back ? (
-        <button
-          type="button"
-          aria-label="Закрыть"
-          onClick={onClose}
-          style={{ width: 36, height: 36 }}
-          className="absolute right-0 flex shrink-0 items-center justify-center rounded-m bg-background-min text-symb-secondary hover:bg-background-med"
-        >
-          <Icon name="close" className="text-[16px]" />
-        </button>
-      ) : null}
+      {!back ? <DrawerCloseButton onClick={onClose} /> : null}
     </header>
   );
 }

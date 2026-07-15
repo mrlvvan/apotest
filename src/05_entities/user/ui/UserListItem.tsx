@@ -22,7 +22,7 @@ export default function UserListItem({
         "group flex h-12 w-full items-center justify-between rounded-m px-5 text-left text-s text-symb-primary",
         "group transition-colors duration-300 ease-in-out",
         isUnverified
-          ? "bg-background-error hover:bg-background-error"
+          ? "bg-background-error hover:bg-neutral-min"
           : "bg-background-med hover:bg-neutral-min",
       )}
     >

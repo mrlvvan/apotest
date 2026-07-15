@@ -28,13 +28,13 @@ export default function PhonePreview({ phone, verified, onClick }: PhonePreviewP
     <button
       type="button"
       onClick={onClick}
-      className="grid w-full overflow-hidden rounded-m text-left text-s transition-opacity hover:opacity-95"
+      className="group grid w-full gap-1 overflow-hidden rounded-m text-left text-s"
     >
-      <span className="flex h-12 items-center justify-between bg-background-error px-4 text-symb-primary">
+      <span className="flex h-12 items-center justify-between rounded-m bg-background-error px-4 text-symb-primary transition-colors group-hover:bg-neutral-min">
         <span>{displayPhone}</span>
         <Icon name="info" className="text-[18px] text-symb-primary" />
       </span>
-      <span className="bg-background-med px-4 py-2 text-s text-symb-primary">
+      <span className="rounded-m bg-background-med px-4 py-2 text-s text-symb-primary transition-colors group-hover:bg-neutral-min">
         Требуется подтверждение
       </span>
     </button>

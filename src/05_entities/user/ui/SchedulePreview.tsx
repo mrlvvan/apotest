@@ -42,7 +42,7 @@ export default function SchedulePreview({
     >
       <span className="grid grid-cols-[76px_minmax(132px,1fr)_32px] items-start gap-y-2">
         <span className="text-symb-secondary">Пн–Чт</span>
-        <span className="whitespace-nowrap font-medium">{workTime}</span>
+        <span className="whitespace-nowrap">{workTime}</span>
         <span
           className={cn(
             "flex size-8 items-center justify-center justify-self-end rounded-s bg-background-none opacity-0 transition-opacity group-hover:opacity-100",
@@ -52,11 +52,11 @@ export default function SchedulePreview({
           <Icon name="chevron_right" className="text-symb-primary" />
         </span>
         <span className="text-symb-secondary">Пт</span>
-        <span className="whitespace-nowrap font-medium">{workTime}</span>
+        <span className="whitespace-nowrap">{workTime}</span>
         {hasLunch ? (
           <>
             <span className="text-symb-secondary">Обед</span>
-            <span className="whitespace-nowrap font-medium">
+            <span className="whitespace-nowrap">
               {secondsToTime(schedule.lunchStart!)} до {secondsToTime(schedule.lunchEnd!)}
             </span>
           </>

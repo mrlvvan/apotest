@@ -23,6 +23,8 @@ import {
 import { UserList } from "@features/user-list";
 import DrawerLoading from "@shared/ui/DrawerLoading";
 import DrawerShell from "@shared/ui/DrawerShell";
+import { ChangePhoneDrawer } from "@widgets/change-phone";
+import { ConfirmPhoneDrawer } from "@widgets/confirm-phone";
 import { ScheduleDrawer } from "@widgets/schedule-drawer";
 import { UnsavedChangesModal } from "@widgets/unsaved-modal";
 import { UserDrawer } from "@widgets/user-drawer";
@@ -43,8 +45,10 @@ export default function DashboardClient() {
   const [scheduleSet, setScheduleSet] = useState(false);
   const [selectedUser, setSelectedUser] = useState<DashboardUser | null>(null);
   const [pendingConfirmationUser, setPendingConfirmationUser] = useState<DashboardUser | null>(
-    null,  
+    null,
   );
+  const [pendingPhone, setPendingPhone] = useState("");
+  const [phoneConfirmSource, setPhoneConfirmSource] = useState<"create" | "change">("create");
   const [form, setForm] = useState<UserForm>(emptyForm);
   const [schedule, setSchedule] = useState<Schedule>(defaultSchedule);
   const [isModified, setIsModified] = useState(false);
@@ -109,6 +113,8 @@ export default function DashboardClient() {
     setDrawerMode(null);
     setSelectedUser(null);
     setPendingConfirmationUser(null);
+    setPendingPhone("");
+    setPhoneConfirmSource("create");
     setSchedule(defaultSchedule);
     setScheduleSet(false);
     setIsModified(false);
@@ -154,6 +160,8 @@ export default function DashboardClient() {
       await sendCode(createdUser.id, form.phone);
 
       setPendingConfirmationUser(createdUser);
+      setPendingPhone(form.phone);
+      setPhoneConfirmSource("create");
       setDrawerMode("confirmPhone");
     } catch {
       setDrawerMode("create");
@@ -218,6 +226,27 @@ export default function DashboardClient() {
     }
   }
 
+  async function handlePhoneChangeSubmit() {
+    if (!selectedUser || !form.phone) {
+      setShowValidation(true);
+      return;
+    }
+
+    setDrawerMode("pending");
+
+    try {
+      await sendCode(selectedUser.id, form.phone);
+      setPendingConfirmationUser(selectedUser);
+      setPendingPhone(form.phone);
+      setPhoneConfirmSource("change");
+      setShowValidation(false);
+      setDrawerMode("confirmPhone");
+    } catch {
+      setDrawerMode("changePhone");
+      setShowValidation(true);
+    }
+  }
+
   async function handleConfirmPhone() {
     if (!pendingConfirmationUser) {
       return;
@@ -228,12 +257,22 @@ export default function DashboardClient() {
     try {
       const confirmedUser = await confirmCode(
         pendingConfirmationUser.id,
-        pendingConfirmationUser.phone,
+        pendingPhone || pendingConfirmationUser.phone,
         "1111",
       );
 
-      setUsers((current) => [confirmedUser, ...current]);
+      if (phoneConfirmSource === "create") {
+        setUsers((current) => [confirmedUser, ...current]);
+      } else {
+        setUsers((current) =>
+          current.map((user) =>
+            user.id === confirmedUser.id ? { ...user, ...confirmedUser } : user,
+          ),
+        );
+      }
+
       setPendingConfirmationUser(null);
+      setPendingPhone("");
       window.setTimeout(() => {
         openConfirmedUser(confirmedUser);
       }, 700);
@@ -263,11 +302,29 @@ export default function DashboardClient() {
         <DrawerShell pending={drawerMode === "pending"}>
           {drawerMode === "loading" ? (
             <DrawerLoading />
-          ) : drawerMode === "pending" ? null : drawerMode === "schedule" ? (
+          ) : drawerMode === "pending" ? null : drawerMode === "changePhone" ? (
+            <ChangePhoneDrawer
+              phone={form.phone}
+              showValidation={showValidation}
+              onClose={requestCloseDrawer}
+              onPhoneChange={(value) => {
+                setForm((current) => ({ ...current, phone: value }));
+              }}
+              onSubmit={handlePhoneChangeSubmit}
+            />
+          ) : drawerMode === "schedule" ? (
             <ScheduleDrawer
               schedule={schedule}
               onBack={() => setDrawerMode(scheduleReturnMode)}
               onSave={handleSaveSchedule}
+            />
+          ) : drawerMode === "confirmPhone" ? (
+            <ConfirmPhoneDrawer
+              phone={pendingPhone || form.phone}
+              onBack={() =>
+                setDrawerMode(phoneConfirmSource === "change" ? "changePhone" : "create")
+              }
+              onConfirm={handleConfirmPhone}
             />
           ) : (
             <UserDrawer
@@ -275,7 +332,6 @@ export default function DashboardClient() {
               form={form}
               schedule={schedule}
               scheduleSet={scheduleSet}
-              isModified={isModified}
               selectedUser={selectedUser}
               showValidation={showValidation}
               onClose={requestCloseDrawer}
@@ -284,10 +340,16 @@ export default function DashboardClient() {
                 setScheduleReturnMode(drawerMode === "create" ? "create" : "view");
                 setDrawerMode("schedule");
               }}
-              onBackFromConfirm={() => setDrawerMode("create")}
+              onOpenPhoneChange={() => {
+                setForm((current) => ({
+                  ...current,
+                  phone: selectedUser?.phone || "",
+                }));
+                setShowValidation(false);
+                setDrawerMode("changePhone");
+              }}
               onSubmitCreate={handleCreateSubmit}
               onSave={handleSaveExisting}
-              onConfirmPhone={handleConfirmPhone}
             />
           )}
         </DrawerShell>

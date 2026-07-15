@@ -5,14 +5,16 @@ import Icon from "@shared/ui/Icon";
 interface PhonePreviewProps {
   phone: string;
   verified: boolean;
+  onClick?: () => void;
 }
 
-export default function PhonePreview({ phone, verified }: PhonePreviewProps) {
+export default function PhonePreview({ phone, verified, onClick }: PhonePreviewProps) {
   if (verified) {
     return (
       <button
         type="button"
-        className="h-12 rounded-m bg-background-med px-4 text-left text-s text-symb-secondary"
+        onClick={onClick}
+        className="h-12 w-full rounded-m bg-background-med px-4 text-left text-s text-symb-secondary transition-colors hover:bg-neutral-min"
       >
         {phone}
       </button>
@@ -20,7 +22,11 @@ export default function PhonePreview({ phone, verified }: PhonePreviewProps) {
   }
 
   return (
-    <button type="button" className="grid overflow-hidden rounded-m text-left text-s">
+    <button
+      type="button"
+      onClick={onClick}
+      className="grid w-full overflow-hidden rounded-m text-left text-s transition-opacity hover:opacity-95"
+    >
       <span className="flex h-12 items-center justify-between bg-background-error px-4 text-symb-primary">
         <span>{phone}</span>
         <Icon name="info" className="text-[18px] text-symb-primary" />

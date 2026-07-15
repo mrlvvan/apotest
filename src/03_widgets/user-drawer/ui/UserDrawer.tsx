@@ -7,9 +7,8 @@ import Button from "@shared/ui/Button";
 import DrawerHeader from "@shared/ui/DrawerHeader";
 import DrawerInput from "@shared/ui/DrawerInput";
 import DrawerSelect from "@shared/ui/DrawerSelect";
-import { ConfirmPhoneDrawer } from "@widgets/confirm-phone";
 
-type UserDrawerMode = "view" | "create" | "confirmPhone";
+type UserDrawerMode = "view" | "create";
 
 interface UserDrawerProps {
   mode: UserDrawerMode;
@@ -17,15 +16,13 @@ interface UserDrawerProps {
   schedule: Schedule;
   scheduleSet: boolean;
   selectedUser: DashboardUser | null;
-  isModified: boolean;
   showValidation: boolean;
   onClose: () => void;
   onOpenSchedule: () => void;
+  onOpenPhoneChange: () => void;
   onFieldChange: (field: keyof UserForm, value: string) => void;
-  onBackFromConfirm: () => void;
   onSubmitCreate: () => void;
   onSave: () => void;
-  onConfirmPhone: () => void;
 }
 
 export default function UserDrawer({
@@ -37,24 +34,12 @@ export default function UserDrawer({
   showValidation,
   onClose,
   onOpenSchedule,
+  onOpenPhoneChange,
   onFieldChange,
-  onBackFromConfirm,
   onSubmitCreate,
   onSave,
-  onConfirmPhone,
 }: UserDrawerProps) {
-  const isCreate = mode === "create" || mode === "confirmPhone";
-  const isConfirmPhone = mode === "confirmPhone";
-
-  if (isConfirmPhone) {
-    return (
-      <ConfirmPhoneDrawer
-        phone={form.phone}
-        onBack={onBackFromConfirm}
-        onConfirm={onConfirmPhone}
-      />
-    );
-  }
+  const isCreate = mode === "create";
 
   return (
     <div className="flex min-h-dvh flex-col pb-8 pt-12">
@@ -107,7 +92,7 @@ export default function UserDrawer({
                 error={showValidation && !form.phone ? "Обязательное поле" : undefined}
                 onChange={(value) => onFieldChange("phone", value)}
               />
-              <p className="text-xs text-symb-secondary">
+              <p className="text-s text-symb-secondary">
                 Вышлем SMS-код. Без подтверждения пользователь не будет добавлен
               </p>
             </div>
@@ -115,6 +100,7 @@ export default function UserDrawer({
             <PhonePreview
               phone={selectedUser?.phone || ""}
               verified={selectedUser?.phoneVerified ?? true}
+              onClick={onOpenPhoneChange}
             />
           )}
         </div>

@@ -1,0 +1,49 @@
+"use client";
+
+import { normalizePhoneInput } from "@shared/lib/schedule";
+import Button from "@shared/ui/Button";
+import DrawerHeader from "@shared/ui/DrawerHeader";
+import DrawerInput from "@shared/ui/DrawerInput";
+
+interface ChangePhoneDrawerProps {
+  phone: string;
+  showValidation: boolean;
+  onClose: () => void;
+  onPhoneChange: (value: string) => void;
+  onSubmit: () => void;
+}
+
+export default function ChangePhoneDrawer({
+  phone,
+  showValidation,
+  onClose,
+  onPhoneChange,
+  onSubmit,
+}: ChangePhoneDrawerProps) {
+  return (
+    <div className="flex min-h-dvh flex-col pb-8 pt-12">
+      <DrawerHeader title="Изменить номер" onClose={onClose} />
+
+      <div className="grid flex-1 gap-4">
+        <label className="text-s text-symb-primary">Введите новый номер</label>
+        <DrawerInput
+          value={phone}
+          placeholder="+ 7 (000) 000–00–00"
+          inputMode="numeric"
+          maxLength={12}
+          pattern="[0-9]*"
+          normalizeValue={normalizePhoneInput}
+          error={showValidation && !phone ? "Обязательное поле" : undefined}
+          onChange={onPhoneChange}
+        />
+        <p className="text-s text-symb-secondary">
+          Вышлем SMS-код. Без подтверждения пользователь не будет добавлен
+        </p>
+      </div>
+
+      <Button className="mt-auto self-end" size="M" variant="primary" onClick={onSubmit}>
+        Подтвердить
+      </Button>
+    </div>
+  );
+}

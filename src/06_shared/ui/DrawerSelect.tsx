@@ -43,7 +43,7 @@ export default function DrawerSelect({
       </button>
 
       {invalid ? (
-        <span className="text-xs text-symb-error">Обязательное поле</span>
+        <span className="text-m text-symb-error">Обязательное поле</span>
       ) : null}
 
       {isOpen ? (

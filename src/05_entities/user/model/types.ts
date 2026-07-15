@@ -2,6 +2,7 @@ export type DrawerMode =
   | "view"
   | "create"
   | "confirmPhone"
+  | "changePhone"
   | "schedule"
   | "loading"
   | "pending";

@@ -39,7 +39,7 @@ export default function DrawerInput({
           error ? "border-stroke-error" : "border-stroke-med focus:border-stroke-active",
         )}
       />
-      {error ? <span className="text-xs text-symb-error">{error}</span> : null}
+      {error ? <span className="text-m text-symb-error">{error}</span> : null}
     </label>
   );
 }
